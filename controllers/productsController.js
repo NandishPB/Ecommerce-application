@@ -1,17 +1,26 @@
-const products = require('../data/products');
+const Product = require('../models/Product.model');
 
 // Get all products
-const getProducts = (req, res) => {
-  res.json(products);
+const getProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // Get product by slug
-const getProductBySlug = (req, res) => {
-  const product = products.find(p => p.slug === req.params.slug);
-  if (product) {
-    res.json(product);
-  } else {
-    res.status(404).json({ message: 'Product not found' });
+const getProductBySlug = async (req, res) => {
+  try {
+    const product = await Product.findOne({ slug: req.params.slug });
+    if (product) {
+      res.json(product);
+    } else {
+      res.status(404).json({ message: 'Product not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 

@@ -6,12 +6,16 @@ const categoryRoutes = require('./routes/categories');
 const cartRoutes = require('./routes/cart');
 const checkoutRoutes = require('./routes/checkout');
 const { errorHandler, notFound } = require('./middleware/errorHandlers');
+const connectDB = require('./config/db');
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Connect to MongoDB
+connectDB();
 
 // Middleware
 app.use(cors());
